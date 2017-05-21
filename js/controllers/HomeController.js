@@ -32,12 +32,16 @@ app.controller('HomeController', ['$scope', 'suggestions', function($scope, sugg
 	};
 
 	function storageInit() {
+		if (localStorage.getItem('isLiked')) {
+			isLiked = JSON.parse(localStorage.getItem('isLiked'));
+		};
+
 		for (let i = 0; i < $scope.posts.length; i++) {
 			if (isLiked[i] === undefined) {
 				isLiked[i] = 0;
 			}
 		};
-		localStorage.clear();
+		
 		localStorage.setItem('isLiked', JSON.stringify(isLiked));
 	};
 }]);
