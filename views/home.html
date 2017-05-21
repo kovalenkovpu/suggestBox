@@ -1,0 +1,28 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<form ng-submit="addSuggestion()" style="margin-top: 50px">
+				<div class="form-group">
+					<label for="suggestionForm">Submit Your Suggestion</label>
+					<input type="text" class="form-control" placeholder="Great ideas here" ng-model="title" id="suggestionForm"></input>
+				</div>
+				<button type="submit" class="btn btn-primary">Suggest</button>
+			</form>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+
+	<div class="row" ng-repeat="post in posts">
+		<div class="col-md-2"></div>
+		<div class="post col-md-8">
+			<h3 class="alert alert-success">{{ post.title }}</h3>
+			<p>
+				<span class="glyphicon glyphicon-plus-sign" ng-click="upVote(post)"></span>
+				Likes: {{post.upvotes}}
+			</p>
+			<a href="#!/suggestion/{{$index}}">Comments</a>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+</div>
