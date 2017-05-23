@@ -1,22 +1,26 @@
-app.controller('HomeController', ['$scope', 'suggestions', function($scope, suggestions) {
+app.controller('HomeController', ['$scope', '$http', 'suggestions', 'postSuggestion', function($scope, $http, suggestions, postSuggestion) {
 	let isLiked = {};
 	
 	suggestions.getSuggestions.then(function(data) {
-		console.log(data.posts);
 		$scope.posts = data.posts;
 
 		storageInit();
 	});
 	
 	$scope.addSuggestion = function() {
+
 		if (!$scope.title || $scope.title === '') return;
 
-		$scope.posts.push({
+		let dataObj = {
 			id: $scope.posts[$scope.posts.length - 1].id + 1,
 			title: $scope.title,
 			upvotes: 0,
 			comments: []
-		});
+		};
+
+		postSuggestion.postSuggestion(dataObj);
+
+		$scope.posts.push(dataObj);
 		storageInit();
 		$scope.title = '';
 	};
