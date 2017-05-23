@@ -12,7 +12,21 @@
 <body ng-app="SuggestionBox">
 	<div ng-view></div>
 	
- 
+ 	<!-- FIREBASE API -->
+ 	<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+	<script>
+  		// Initialize Firebase
+  		let config = {
+  		  apiKey: "AIzaSyD7-BaeF5BnbfximTAPUisGv5OdeFNAZHk",
+  		  authDomain: "sg-box.firebaseapp.com",
+  		  databaseURL: "https://sg-box.firebaseio.com",
+  		  projectId: "sg-box",
+  		  storageBucket: "sg-box.appspot.com",
+  		  messagingSenderId: "749237286307"
+  		};
+  		firebase.initializeApp(config);
+	</script>
+	
 	<!-- Modules -->
 	<script type="text/javascript" src="js/app.js"></script>
  
@@ -22,5 +36,7 @@
  
 	<!-- Services -->
 	<script type="text/javascript" src="js/services/suggestions.js"></script>
+
+
 </body>
 </html>

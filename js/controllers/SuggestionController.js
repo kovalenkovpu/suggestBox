@@ -1,9 +1,13 @@
 app.controller('SuggestionController', ['$scope', '$routeParams', 'suggestions', function($scope, $routeParams, suggestions) {
 	let isCommentLiked = {};
 
-	$scope.posts = suggestions.posts;
-	$scope.post = $scope.posts[$routeParams.id];
-	$scope.comments = $scope.post.comments;
+	suggestions.getSuggestions.then(function(data) {
+		$scope.posts = data.posts;
+		$scope.post = $scope.posts[$routeParams.id];
+		$scope.comments = $scope.post.comments;
+	});
+
+	
 
 	$scope.addComment = function() {
 		$scope.comments.push({

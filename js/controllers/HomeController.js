@@ -1,8 +1,12 @@
 app.controller('HomeController', ['$scope', 'suggestions', function($scope, suggestions) {
 	let isLiked = {};
+	
+	suggestions.getSuggestions.then(function(data) {
+		console.log(data.posts);
+		$scope.posts = data.posts;
 
-	$scope.posts = suggestions.posts;
-	storageInit();
+		storageInit();
+	});
 	
 	$scope.addSuggestion = function() {
 		if (!$scope.title || $scope.title === '') return;
