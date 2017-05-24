@@ -1,10 +1,15 @@
-app.controller('HomeController', ['$scope', '$http', 'suggestions', 'postSuggestion', function($scope, $http, suggestions, postSuggestion) {
+app.controller('HomeController', ['$scope', 
+									'$http', 
+									'suggestions', 
+									'postSuggestion',
+									'firebase', function($scope, $http, suggestions, postSuggestion, firebase) {
 	let isLiked = {};
-	
+
+	let fb = firebase.database();
+
 	suggestions.getSuggestions.then(function(data) {
 		$scope.posts = data.posts;
-
-		storageInit();
+		//storageInit();
 	});
 	
 	$scope.addSuggestion = function() {
@@ -12,20 +17,21 @@ app.controller('HomeController', ['$scope', '$http', 'suggestions', 'postSuggest
 		if (!$scope.title || $scope.title === '') return;
 
 		let dataObj = {
-			id: $scope.posts[$scope.posts.length - 1].id + 1,
 			title: $scope.title,
 			upvotes: 0,
 			comments: []
 		};
 
-		postSuggestion.postSuggestion(dataObj);
+		//postSuggestion.postSuggestion(dataObj);
 
-		$scope.posts.push(dataObj);
-		storageInit();
+		fb.ref('/data/posts/').push(dataObj);
+
+		//$scope.posts.push(dataObj);
+		//storageInit();
 		$scope.title = '';
 	};
 
-	$scope.upVote = function(post) {
+/*	$scope.upVote = function(post) {
 		let voteObj = JSON.parse(localStorage.getItem('isLiked'));
 
 		if (voteObj[post.id] == 1) {
@@ -37,9 +43,9 @@ app.controller('HomeController', ['$scope', '$http', 'suggestions', 'postSuggest
 			voteObj[post.id] = 1;
 			localStorage.setItem('isLiked', JSON.stringify(voteObj));
 		};
-	};
+	};*/
 
-	function storageInit() {
+/*	function storageInit() {
 		if (localStorage.getItem('isLiked')) {
 			isLiked = JSON.parse(localStorage.getItem('isLiked'));
 		};
@@ -51,5 +57,5 @@ app.controller('HomeController', ['$scope', '$http', 'suggestions', 'postSuggest
 		};
 		
 		localStorage.setItem('isLiked', JSON.stringify(isLiked));
-	};
+	};*/
 }]);

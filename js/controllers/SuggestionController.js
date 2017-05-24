@@ -1,27 +1,37 @@
-app.controller('SuggestionController', ['$scope', '$routeParams', 'suggestions', function($scope, $routeParams, suggestions) {
+app.controller('SuggestionController', ['$scope', 
+										'$routeParams', 
+										'suggestions', 
+										'postComment', 
+										'$firebase', function($scope, $routeParams, suggestions, postComment, $firebase) {
 	let isCommentLiked = {};
 
 	suggestions.getSuggestions.then(function(data) {
 		$scope.posts = data.posts;
 		$scope.post = $scope.posts[$routeParams.id];
-		$scope.comments = $scope.post.comments;
-	});
+		//$scope.comments = $scope.post.comments;
 
+		console.dir($scope.posts);
+	});
 	
 
 	$scope.addComment = function() {
-		$scope.comments.push({
-			id: $scope.comments[$scope.comments.length - 1].id + 1,
+		if (!$scope.comment || $scope.comment === '') return;
+
+		let dataObj = {
 			body: $scope.comment,
 			upvotes: 0
-		});
+		};
 
-		storageCommentInit();
+		postComment.postComment(dataObj, 'https://sg-box.firebaseio.com/data/posts/');
+
+		$scope.comments.push(dataObj);
+
+		//storageCommentInit();
 		$scope.comment = '';
 	};
 
 	//отрефакторить
-	$scope.upVoteComment = function(comment) {
+	/*$scope.upVoteComment = function(comment) {
 		let voteCommentObj = JSON.parse(localStorage.getItem('isCommentLiked'));
 
 		if (voteCommentObj[comment.id] == 1) {
@@ -47,5 +57,5 @@ app.controller('SuggestionController', ['$scope', '$routeParams', 'suggestions',
 		};
 		console.log(isCommentLiked);
 		localStorage.setItem('isCommentLiked', JSON.stringify(isCommentLiked));
-	};
+	};*/
 }]);
