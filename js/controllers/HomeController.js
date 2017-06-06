@@ -1,16 +1,29 @@
-app.controller('HomeController', ['$scope', 
+app.controller('HomeController', ['$scope',
+									'$routeParams', 
 									'$http', 
 									'suggestions', 
 									'postSuggestion',
-									'firebase', function($scope, $http, suggestions, postSuggestion, firebase) {
+									'firebase', function($scope, $routeParams, $http, suggestions, postSuggestion, firebase) {
 	let isLiked = {};
 
+	//injecting firebase module there's no need
+	//in GET and POST services
+	/* TO-DO
+	[ ] - заменить сервисы на прямую работу с firebase DB
+	[ ] - разобраться с комментариями для постов (получение доступа по ключу поста)
+	*/
 	let fb = firebase.database();
 
-	suggestions.getSuggestions.then(function(data) {
-		$scope.posts = data.posts;
-		//storageInit();
+	//добавляет eventListener на изменения в базе по указанной
+	//в .ref() ссылке
+	fb.ref('/data/posts/').on('value', function(snapshot) {
+  		$scope.posts = snapshot.val();
 	});
+
+	// suggestions.getSuggestions.then(function(data) {
+	// $scope.posts = data.posts;
+	// storageInit();
+	// });
 	
 	$scope.addSuggestion = function() {
 
@@ -25,7 +38,7 @@ app.controller('HomeController', ['$scope',
 		//postSuggestion.postSuggestion(dataObj);
 
 		fb.ref('/data/posts/').push(dataObj);
-
+				
 		//$scope.posts.push(dataObj);
 		//storageInit();
 		$scope.title = '';

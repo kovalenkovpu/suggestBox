@@ -12,6 +12,19 @@
 		</div>
 		<div class="col-md-2"></div>
 	</div>
+
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<h3 class="alert alert-success">{{ post.body }}</h3>
+			<p>
+				<span class="glyphicon glyphicon-plus-sign" ng-click="upVote(post)"></span>
+				Likes: {{post.upvotes}}
+			</p>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+
 	<div class="row" ng-repeat="comment in comments">
 		<div class="col-md-2"></div>
 		<div class="col-md-8">

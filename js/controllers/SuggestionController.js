@@ -2,15 +2,16 @@ app.controller('SuggestionController', ['$scope',
 										'$routeParams', 
 										'suggestions', 
 										'postComment', 
-										'$firebase', function($scope, $routeParams, suggestions, postComment, $firebase) {
+										'firebase', function($scope, $routeParams, suggestions, postComment, firebase) {
 	let isCommentLiked = {};
 
-	suggestions.getSuggestions.then(function(data) {
-		$scope.posts = data.posts;
-		$scope.post = $scope.posts[$routeParams.id];
-		//$scope.comments = $scope.post.comments;
+	let fb = firebase.database();
 
-		console.dir($scope.posts);
+	fb.ref('/data/posts/').on('value', function(snapshot) {
+  		$scope.posts = snapshot.val();
+  		console.log($scope.posts);
+  		console.log($routeParams.id);
+		console.log($scope.post = $scope.posts[$routeParams.id]);
 	});
 	
 
@@ -22,9 +23,9 @@ app.controller('SuggestionController', ['$scope',
 			upvotes: 0
 		};
 
-		postComment.postComment(dataObj, 'https://sg-box.firebaseio.com/data/posts/');
+		//postComment.postComment(dataObj, 'https://sg-box.firebaseio.com/data/posts/');
 
-		$scope.comments.push(dataObj);
+		//$scope.comments.push(dataObj);
 
 		//storageCommentInit();
 		$scope.comment = '';
